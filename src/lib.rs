@@ -4,7 +4,7 @@
 
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{env, near_bindgen};
+use near_sdk::{near_bindgen};
 
 near_sdk::setup_alloc!();
 
@@ -16,11 +16,9 @@ pub struct Contract {}
 
 #[near_bindgen]
 impl Contract {
-    /// Note, the parameter is `&self` (without being mutable) meaning it doesn't modify state.
-    pub fn say_hello(&self) -> String {
-      let caller = env::predecessor_account_id();
-      println!("Hello, {}", caller);
-      return format!("Hello, {}", caller);
+    pub fn say_hello(&self, name: String) -> String {
+      println!("Hello, {}", name);
+      return format!("Hello, {}", name);
     }
 }
 
@@ -70,6 +68,6 @@ mod tests {
         testing_env!(context);
         // instantiate a contract variable
         let contract = Contract { };
-        assert_eq!("Hello, jane.testnet", contract.say_hello());
+        assert_eq!("Hello, jane", contract.say_hello("jane".to_string()));
     }
 }
